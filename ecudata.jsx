@@ -134,7 +134,7 @@ function add_data()
     textPos.setValue([curComp.width-20,100+curOffset]);
     for( var ii = 0 ; ii < logData.length; ii++) 
     {
-        textProp.setValueAtTime(logData[ii][0], new TextDocument(logData[ii][i]));
+        textProp.setValueAtTime(logData[ii][0]-logData[0][0], new TextDocument(logData[ii][i]));
     }
     addShadow(myLayer);
 
