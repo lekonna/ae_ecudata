@@ -51,7 +51,7 @@ function add_data()
     var logFile = File.openDialog("please select .cvs dyno data","csv:*.csv");
 	if (!logFile) {
 		alert("No file selected, aborting");
-		exit;
+		return;
         
 	}
 
@@ -98,6 +98,26 @@ function add_data()
 
     for( i=0; i < selWin.headers.length ; i++ ) if (selWin.headers[i] == selWin.myDrop.selection.text) break;
 
+
+    var dashComp;
+    for (var j = 1 ; j < app.project.numItems ; j++ )
+        if ( typeof app.project.item(j) != "undefined" && app.project.item(j).name=="dash")
+        {
+            dashComp = app.project.item(j);
+            break;
+        }
+    var dataFolder;
+    for (var j = 1 ; j < app.project.numItems ; j++ )
+        if ( typeof app.project.item(j) != "undefined" && app.project.item(j).name=="ecu data folder")
+        {
+            dataFolder = app.project.item(j);
+            break;
+        }
+    if (!dataFolder) dataFolder = app.project.items.addFolder("ecu data folder");
+
+    if(!dashComp)
+            dashComp = app.project.items.addComp("dash",1280,720,1,10,29.97);
+
     var curComp = app.project.items.addComp(selWin.myDrop.selection.text,1280,720,1,10,29.97);
 
     var myTextDoc  = new TextDocument(selWin.myDrop.selection.text);
@@ -132,6 +152,8 @@ function add_data()
     addShadow(myTextLayer2);
 
     curOffset += 90;
+    curComp.parentFolder = dataFolder;
+    dashComp.layers.add( curComp );
 
 }           
    selWin.center();
