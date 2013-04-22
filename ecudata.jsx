@@ -66,7 +66,7 @@ function add_data()
     var logUnits = logFile.readln().split(",");
 
     logFile.readln();
-    var curOffset = 0;    
+  
     var logData = new Array();
     while (!logFile.eof)
     {
@@ -127,11 +127,11 @@ function add_data()
     var textProp   = myLayer.property("Source Text");
     var textPos    = myLayer.property("position");
     var textDoc    = textProp.value;
-
+    if (typeof dashComp.curOffset == "undefined" ) dashComp.curOffset = 0;
     textDoc.justification = ParagraphJustification.RIGHT_JUSTIFY;
     textDoc.fontSize = 56;
     textProp.setValue(textDoc);
-    textPos.setValue([curComp.width-20,100+curOffset]);
+    textPos.setValue([curComp.width-20,100+dashComp.curOffset]);
     for( var ii = 0 ; ii < logData.length; ii++) 
     {
         textProp.setValueAtTime(logData[ii][0]-logData[0][0], new TextDocument(logData[ii][i]));
@@ -148,10 +148,10 @@ function add_data()
     textDoc2.justification = ParagraphJustification.RIGHT_JUSTIFY;
     textDoc2.fontSize = 28;
     textProp2.setValue(textDoc2);
-    textPos2.setValue([curComp.width-20,100+curOffset+36]);
+    textPos2.setValue([curComp.width-20,100+dashComp.curOffset+36]);
     addShadow(myTextLayer2);
 
-    curOffset += 90;
+    dashComp.curOffset += 90;
     curComp.parentFolder = dataFolder;
     dashComp.layers.add( curComp );
 
